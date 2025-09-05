@@ -1,16 +1,6 @@
 version: "3.9"
 
 services:
-  app:
-    build: .
-    container_name: mentor_app
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
-    env_file:
-      - .env
-
   db:
     image: postgres:17
     container_name: mentor_db
@@ -21,6 +11,22 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: mentor_app
+    depends_on:
+      db:
+        condition: service_healthy   
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
 
 volumes:
   pgdata:
