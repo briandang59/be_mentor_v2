@@ -35,7 +35,27 @@ func (ctl *Controller) Register(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, dto.Success(u, "User registered successfully"))
+	// 🔑 Tạo token verify email
+	token, _ := utils.GenerateEmailVerifyToken(u.ID, ctl.cfg.JWTSecret)
+	verifyURL := "http://localhost:8080/verify-email?token=" + token
+
+	// 🔑 Render template email
+	body, err := utils.RenderTemplate("internal/templates/verify_email.html", map[string]string{
+		"Username":  u.Username,
+		"VerifyURL": verifyURL,
+	})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, dto.Fail("failed to render email template"))
+		return
+	}
+	// 🔑 Gửi email
+	emailSender := jobs.NewEmailSender(ctl.cfg)
+	if err := emailSender.Send(u.Email, "Verify your Mentors account", body); err != nil {
+		c.JSON(http.StatusInternalServerError, dto.Fail("User created but failed to send email"))
+		return
+	}
+
+	c.JSON(http.StatusCreated, dto.Success(u, "User registered successfully, please check your email to verify your account"))
 }
 
 func (ctl *Controller) Login(c *gin.Context) {
