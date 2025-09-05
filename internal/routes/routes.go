@@ -12,14 +12,16 @@ import (
 )
 
 func Setup(r *gin.Engine, cfg *config.Config) {
-	r.GET("/health", func(c *gin.Context) {
+	// Health check
+	r.GET("/api/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"status": "ok",
 			"db":     database.DB != nil,
 		})
 	})
 
-	r.GET("/test-email", func(c *gin.Context) {
+	// Test email
+	r.GET("/api/test-email", func(c *gin.Context) {
 		to := c.Query("to")
 		body, err := utils.RenderTemplate("internal/templates/verify_email.html", map[string]string{
 			"VerifyURL": "http://localhost:8080/verify-email?token=dummytoken",
@@ -42,14 +44,17 @@ func Setup(r *gin.Engine, cfg *config.Config) {
 	userService := user.NewService(userRepo)
 	userController := user.NewController(userService, cfg)
 
-	// Auth routes
-	r.POST("/register", userController.Register)
-	r.POST("/login", userController.Login)
-	r.GET("/verify-email", userController.VerifyEmail)
-	r.POST("/forgot-password", userController.ForgotPassword)
-	r.POST("/reset-password", userController.ResetPassword)
+	// 📌 Public routes (không cần JWT)
+	public := r.Group("/api")
+	{
+		public.POST("/register", userController.Register)
+		public.POST("/login", userController.Login)
+		public.GET("/verify-email", userController.VerifyEmail)
+		public.POST("/forgot-password", userController.ForgotPassword)
+		public.POST("/reset-password", userController.ResetPassword)
+	}
 
-	// Protected routes
+	// 📌 Protected routes (cần JWT)
 	auth := r.Group("/api", middleware.AuthMiddleware(cfg))
 	{
 		auth.GET("/me", func(c *gin.Context) {
