@@ -18,6 +18,7 @@ func Setup(r *gin.Engine, cfg *config.Config) {
 			"db":     database.DB != nil,
 		})
 	})
+
 	r.GET("/test-email", func(c *gin.Context) {
 		to := c.Query("to")
 		body, err := utils.RenderTemplate("internal/templates/verify_email.html", map[string]string{
@@ -41,9 +42,14 @@ func Setup(r *gin.Engine, cfg *config.Config) {
 	userService := user.NewService(userRepo)
 	userController := user.NewController(userService, cfg)
 
+	// Auth routes
 	r.POST("/register", userController.Register)
 	r.POST("/login", userController.Login)
+	r.GET("/verify-email", userController.VerifyEmail)
+	r.POST("/forgot-password", userController.ForgotPassword)
+	r.POST("/reset-password", userController.ResetPassword)
 
+	// Protected routes
 	auth := r.Group("/api", middleware.AuthMiddleware(cfg))
 	{
 		auth.GET("/me", func(c *gin.Context) {
