@@ -1,0 +1,35 @@
+# Binaries
+/server
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary & output
+*.test
+*.out
+
+# Go vendor
+/vendor/
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.local
+
+# Docker
+**/pgdata
+docker-compose.override.yml
+
+# OS specific
+.DS_Store
+Thumbs.db
