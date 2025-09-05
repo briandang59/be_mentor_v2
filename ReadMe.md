@@ -1,3 +1,22 @@
+# Mentors Platform
+
+Dự án xây dựng hệ thống web **Mentor/Mentee** sử dụng **Go (Gin)**, **Postgres**, **Docker**, hỗ trợ **JWT Authentication**, **WebSocket realtime** và **modular architecture** theo Clean Architecture.
+
+---
+
+## 🚀 Công nghệ sử dụng
+- [Go](https://golang.org/) + [Gin](https://github.com/gin-gonic/gin) — Web framework
+- [GORM](https://gorm.io/) — ORM cho Postgres
+- [Postgres](https://www.postgresql.org/) — CSDL chính
+- [Docker](https://www.docker.com/) + Docker Compose — Dev & deploy
+- [JWT](https://jwt.io/) — Authentication
+- WebSocket — Realtime chat, presence
+
+---
+
+## 📂 Cấu trúc dự án
+
+```bash
 mentors/
 │── cmd/                  # Entry point cho app (main.go)
 │   └── server/
@@ -14,10 +33,6 @@ mentors/
 │   │   │   ├── repository.go
 │   │   │   └── model.go
 │   │   ├── guild/        # Module Guild/Server
-│   │   │   ├── controller.go
-│   │   │   ├── service.go
-│   │   │   ├── repository.go
-│   │   │   └── model.go
 │   │   ├── channel/      # Module Channel
 │   │   ├── message/      # Module Message
 │   │   ├── auth/         # Module Authentication & JWT
@@ -30,11 +45,7 @@ mentors/
 │   │   └── auth_middleware.go
 │   │
 │   ├── ws/               # WebSocket server (realtime chat, presence)
-│   │   └── hub.go
-│   │
 │   ├── jobs/             # Background jobs, worker queues
-│   │   └── email_sender.go
-│   │
 │   └── utils/            # Helper functions (hash, validation, UUID…)
 │
 ├── pkg/                  # Shared library có thể tái sử dụng
@@ -45,14 +56,8 @@ mentors/
 │   └── websocket/        # Abstraction layer cho WS
 │
 ├── migrations/           # File SQL migrate cho Postgres
-│   └── 001_init.up.sql
-│
 ├── api/                  # OpenAPI/Swagger docs
-│   └── swagger.yaml
-│
 ├── tests/                # Integration & unit tests
-│   ├── user_test.go
-│   └── message_test.go
 │
 ├── Dockerfile
 ├── docker-compose.yml
