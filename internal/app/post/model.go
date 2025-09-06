@@ -12,7 +12,7 @@ type Post struct {
 	Title     string         `json:"title" gorm:"not null"`
 	Slug      string         `json:"slug"`
 	Content   string         `json:"content" gorm:"not null"`
-	Tags      []*tag.Tag     `json:"tags,omitempty" gorm:"many2many:post_tags;"`
+	Tags      []*tag.Tag     `json:"tags" gorm:"many2many:post_tags;"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `json:"-" gorm:"index"`
