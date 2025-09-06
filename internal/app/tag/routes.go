@@ -14,4 +14,7 @@ func RegisterRoutes(r *gin.RouterGroup, cfg *config.Config) {
 
 	r.GET("/tags", controller.GetAll)
 	r.POST("/tags", controller.Create)
+	r.PATCH("/tags/:id", controller.UpdatePartial)
+	r.DELETE("/tags/:id", controller.Delete)
+
 }

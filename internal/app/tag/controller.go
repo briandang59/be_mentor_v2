@@ -57,3 +57,42 @@ func (ctl *Controller) GetAll(c *gin.Context) {
 
 	c.JSON(http.StatusOK, dto.SuccessWithMeta(tags, "Tags retrieved successfully", meta))
 }
+
+func (ctl *Controller) UpdatePartial(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, dto.Fail("invalid tag id"))
+		return
+	}
+
+	var req map[string]interface{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, dto.Fail(err.Error()))
+		return
+	}
+
+	tag, err := ctl.service.UpdateTagPartial(uint(id), req)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, dto.Fail(err.Error()))
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Success(tag, "Tag partially updated successfully"))
+}
+
+func (ctl *Controller) Delete(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, dto.Fail("invalid tag id"))
+		return
+	}
+
+	if err := ctl.service.DeleteTag(uint(id)); err != nil {
+		c.JSON(http.StatusInternalServerError, dto.Fail(err.Error()))
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Success(nil, "Tag deleted successfully"))
+}

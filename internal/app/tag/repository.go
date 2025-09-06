@@ -6,6 +6,9 @@ type Repository interface {
 	Create(tag *Tag) (*Tag, error)
 	FindAll() ([]Tag, error)
 	FindWithPagination(limit, offset int) ([]Tag, int64, error)
+	FindByID(id uint) (*Tag, error)
+	UpdateFields(id uint, fields map[string]interface{}) (*Tag, error)
+	Delete(id uint) error
 }
 
 type repo struct {
@@ -43,4 +46,30 @@ func (r *repo) FindWithPagination(limit, offset int) ([]Tag, int64, error) {
 	}
 
 	return tags, total, nil
+}
+
+func (r *repo) FindByID(id uint) (*Tag, error) {
+	var tag Tag
+	if err := r.db.First(&tag, id).Error; err != nil {
+		return nil, err
+	}
+	return &tag, nil
+}
+
+func (r *repo) UpdateFields(id uint, fields map[string]interface{}) (*Tag, error) {
+	var tag Tag
+	if err := r.db.Model(&tag).Where("id = ?", id).Updates(fields).Error; err != nil {
+		return nil, err
+	}
+	if err := r.db.First(&tag, id).Error; err != nil {
+		return nil, err
+	}
+	return &tag, nil
+}
+
+func (r *repo) Delete(id uint) error {
+	if err := r.db.Delete(&Tag{}, id).Error; err != nil {
+		return err
+	}
+	return nil
 }
