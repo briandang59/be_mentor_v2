@@ -30,5 +30,5 @@ func main() {
 	r := gin.Default()
 	routes.Setup(r, cfg)
 
-	r.Run(":8080")
+	r.Run(`:` + cfg.BackendPort)
 }
