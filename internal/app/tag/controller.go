@@ -1,9 +1,11 @@
 package tag
 
 import (
+	"math"
 	"mentors/config"
 	"mentors/internal/dto"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -34,11 +36,24 @@ func (ctl *Controller) Create(c *gin.Context) {
 }
 
 func (ctl *Controller) GetAll(c *gin.Context) {
-	tags, err := ctl.service.GetAllTags()
+	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
+	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "10"))
+	offset := (page - 1) * limit
+
+	tags, total, err := ctl.service.GetTagsWithPagination(limit, offset)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail(err.Error()))
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Success(tags, "Tags retrieved successfully"))
+	totalPages := int(math.Ceil(float64(total) / float64(limit)))
+
+	meta := &dto.Meta{
+		Page:       page,
+		Limit:      limit,
+		Total:      int(total),
+		TotalPages: totalPages,
+	}
+
+	c.JSON(http.StatusOK, dto.SuccessWithMeta(tags, "Tags retrieved successfully", meta))
 }

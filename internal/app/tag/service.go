@@ -3,6 +3,7 @@ package tag
 type Service interface {
 	CreateTag(name string) (*Tag, error)
 	GetAllTags() ([]Tag, error)
+	GetTagsWithPagination(limit, offset int) ([]Tag, int64, error)
 }
 
 type service struct {
@@ -19,4 +20,8 @@ func (s *service) CreateTag(name string) (*Tag, error) {
 }
 func (s *service) GetAllTags() ([]Tag, error) {
 	return s.repo.FindAll()
+}
+
+func (s *service) GetTagsWithPagination(limit, offset int) ([]Tag, int64, error) {
+	return s.repo.FindWithPagination(limit, offset)
 }

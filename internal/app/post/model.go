@@ -2,6 +2,7 @@ package post
 
 import (
 	coverletter "mentors/internal/app/cover_letter"
+	"mentors/internal/app/tag"
 	"time"
 
 	"gorm.io/gorm"
@@ -13,6 +14,7 @@ type Post struct {
 	Slug         string                     `json:"slug"`
 	Content      string                     `json:"content" gorm:"not null"`
 	CoverLetters []*coverletter.CoverLetter `json:"cover_letters,omitempty" gorm:"foreignKey:PostID"`
+	Tags         []*tag.Tag                 `json:"tags,omitempty" gorm:"foreignKey:PostID"`
 	CreatedAt    time.Time                  `json:"created_at"`
 	UpdatedAt    time.Time                  `json:"updated_at"`
 	DeletedAt    gorm.DeletedAt             `json:"-" gorm:"index"`

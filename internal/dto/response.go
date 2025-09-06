@@ -5,6 +5,7 @@ type Response struct {
 	Message string      `json:"message,omitempty"`
 	Data    interface{} `json:"data,omitempty"`
 	Error   string      `json:"error,omitempty"`
+	Meta    *Meta       `json:"meta,omitempty"`
 }
 
 func Success(data interface{}, msg string) Response {
@@ -12,6 +13,15 @@ func Success(data interface{}, msg string) Response {
 		Status:  "success",
 		Message: msg,
 		Data:    data,
+	}
+}
+
+func SuccessWithMeta(data interface{}, msg string, meta *Meta) Response {
+	return Response{
+		Status:  "success",
+		Message: msg,
+		Data:    data,
+		Meta:    meta,
 	}
 }
 
