@@ -2,6 +2,7 @@ package routes
 
 import (
 	"mentors/config"
+	"mentors/internal/app/post"
 	"mentors/internal/app/system"
 	"mentors/internal/app/tag"
 	"mentors/internal/app/user"
@@ -22,4 +23,5 @@ func Setup(r *gin.Engine, cfg *config.Config) {
 	auth := r.Group("/api", middleware.AuthMiddleware(cfg))
 	user.RegisterProtectedRoutes(auth, cfg)
 	tag.RegisterRoutes(auth, cfg)
+	post.PostRoutes(auth, cfg)
 }

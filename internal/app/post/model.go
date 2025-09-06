@@ -1,7 +1,6 @@
 package post
 
 import (
-	coverletter "mentors/internal/app/cover_letter"
 	"mentors/internal/app/tag"
 	"time"
 
@@ -9,13 +8,12 @@ import (
 )
 
 type Post struct {
-	ID           uint                       `json:"id" gorm:"primaryKey"`
-	Title        string                     `json:"title" gorm:"not null"`
-	Slug         string                     `json:"slug"`
-	Content      string                     `json:"content" gorm:"not null"`
-	CoverLetters []*coverletter.CoverLetter `json:"cover_letters,omitempty" gorm:"foreignKey:PostID"`
-	Tags         []*tag.Tag                 `json:"tags,omitempty" gorm:"foreignKey:PostID"`
-	CreatedAt    time.Time                  `json:"created_at"`
-	UpdatedAt    time.Time                  `json:"updated_at"`
-	DeletedAt    gorm.DeletedAt             `json:"-" gorm:"index"`
+	ID        uint           `json:"id" gorm:"primaryKey"`
+	Title     string         `json:"title" gorm:"not null"`
+	Slug      string         `json:"slug"`
+	Content   string         `json:"content" gorm:"not null"`
+	Tags      []*tag.Tag     `json:"tags,omitempty" gorm:"many2many:post_tags;"`
+	CreatedAt time.Time      `json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
+	DeletedAt gorm.DeletedAt `json:"-" gorm:"index"`
 }
