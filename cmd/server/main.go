@@ -2,6 +2,7 @@ package main
 
 import (
 	"mentors/config"
+	"mentors/internal/app/tag"
 	"mentors/internal/app/user"
 	"mentors/internal/routes"
 	"mentors/pkg/database"
@@ -13,8 +14,7 @@ func main() {
 	cfg := config.LoadConfig()
 	database.ConnectDB(cfg.DBHost, cfg.DBUser, cfg.DBPassword, cfg.DBName, cfg.DBPort)
 
-	// migrate user model
-	database.DB.AutoMigrate(&user.User{})
+	database.DB.AutoMigrate(&user.User{}, &tag.Tag{})
 
 	r := gin.Default()
 	routes.Setup(r, cfg)

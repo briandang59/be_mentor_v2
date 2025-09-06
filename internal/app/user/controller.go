@@ -189,3 +189,8 @@ func (ctl *Controller) ResetPassword(c *gin.Context) {
 
 	c.JSON(http.StatusOK, dto.Success(nil, "Password reset successfully"))
 }
+
+func (ctl *Controller) Me(c *gin.Context) {
+	userID := c.GetUint("user_id")
+	c.JSON(200, gin.H{"user_id": userID})
+}
