@@ -4,6 +4,7 @@ import (
 	"mentors/config"
 	"mentors/internal/app/education"
 	"mentors/internal/app/language"
+	"mentors/internal/app/portfolio"
 	"mentors/internal/app/post"
 	"mentors/internal/app/system"
 	"mentors/internal/app/tag"
@@ -25,4 +26,5 @@ func Setup(r *gin.Engine, cfg *config.Config) {
 	education.EducationRoutes(auth, cfg)
 	post.PostRoutes(auth, cfg)
 	language.LanguageRoutes(auth, cfg)
+	portfolio.PortfolioRoutes(auth, cfg)
 }

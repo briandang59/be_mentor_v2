@@ -7,6 +7,7 @@ import (
 	coverletter "mentors/internal/app/cover_letter"
 	"mentors/internal/app/education"
 	"mentors/internal/app/language"
+	"mentors/internal/app/portfolio"
 	"mentors/internal/app/post"
 	"mentors/internal/app/tag"
 	"mentors/internal/app/user"
@@ -29,6 +30,7 @@ func main() {
 		&contract.Contract{},
 		&education.Education{},
 		&language.Language{},
+		&portfolio.Portfolio{},
 	)
 
 	r := gin.Default()
