@@ -5,6 +5,7 @@ import (
 	"mentors/internal/app/attachment"
 	"mentors/internal/app/contract"
 	coverletter "mentors/internal/app/cover_letter"
+	"mentors/internal/app/education"
 	"mentors/internal/app/post"
 	"mentors/internal/app/tag"
 	"mentors/internal/app/user"
@@ -25,6 +26,7 @@ func main() {
 		&coverletter.CoverLetter{},
 		&attachment.Attachment{},
 		&contract.Contract{},
+		&education.Education{},
 	)
 
 	r := gin.Default()
