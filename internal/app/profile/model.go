@@ -33,11 +33,11 @@ type Profile struct {
 	SkillIDs             []uint                                 `json:"skill_ids" gorm:"-"`
 	ContactInformationID uint                                   `json:"contact_information_id" gorm:"type:int"`
 	AvailableTimeIDs     []uint                                 `json:"available_time_ids" gorm:"-"`
-	AvailableTimes       []*availabletime.AvailableTime         `json:"available_times" gorm:"many2many:profile_available_times;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Skills               []*tag.Tag                             `json:"skills" gorm:"many2many:profile_skills;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	AvailableTimes       []*availabletime.AvailableTime         `json:"available_times" gorm:"many2many:profile_available_times;constraint:OnUpdate:CASCADE;"`
+	Skills               []*tag.Tag                             `json:"skills" gorm:"many2many:profile_skills;constraint:OnUpdate:CASCADE;"`
 	Experiences          []*experience.Experience               `json:"experiences" gorm:"foreignKey:ProfileID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	Portfolios           []*portfolio.Portfolio                 `json:"portfolios" gorm:"foreignKey:ProfileID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	Languages            []*language.Language                   `json:"languages" gorm:"many2many:profile_languages;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Languages            []*language.Language                   `json:"languages" gorm:"many2many:profile_languages;constraint:OnUpdate:CASCADE;"`
 	ContactInformation   *contactinformation.ContactInformation `json:"contact_information" gorm:"foreignKey:ContactInformationID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	ProfileImage         *attachment.Attachment                 `json:"profile_image" gorm:"foreignKey:ProfileImageID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	Education            *education.Education                   `json:"education" gorm:"foreignKey:EducationID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
