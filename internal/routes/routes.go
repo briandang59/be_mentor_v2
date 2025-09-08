@@ -2,6 +2,7 @@ package routes
 
 import (
 	"mentors/config"
+	contactinformation "mentors/internal/app/contact_information"
 	"mentors/internal/app/education"
 	"mentors/internal/app/language"
 	"mentors/internal/app/portfolio"
@@ -27,4 +28,5 @@ func Setup(r *gin.Engine, cfg *config.Config) {
 	post.PostRoutes(auth, cfg)
 	language.LanguageRoutes(auth, cfg)
 	portfolio.PortfolioRoutes(auth, cfg)
+	contactinformation.ContactInformationRoutes(auth, cfg)
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"mentors/config"
 	"mentors/internal/app/attachment"
+	contactinformation "mentors/internal/app/contact_information"
 	"mentors/internal/app/contract"
 	coverletter "mentors/internal/app/cover_letter"
 	"mentors/internal/app/education"
@@ -31,6 +32,7 @@ func main() {
 		&education.Education{},
 		&language.Language{},
 		&portfolio.Portfolio{},
+		&contactinformation.ContactInformation{},
 	)
 
 	r := gin.Default()
